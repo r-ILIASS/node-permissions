@@ -1,4 +1,4 @@
-// TODO: add db authentication
+// TODO: enable Access Control for the database on production
 
 const mongoose = require("mongoose");
 
