@@ -1,59 +1,55 @@
 require("dotenv").config();
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
-const cors = require('cors');
-const corsOptions = require('./config/corsOptions');
-const { logger } = require('./middleware/logEvents');
-const errorHandler = require('./middleware/errorHandler');
-const verifyJWT = require('./middleware/verifyJWT');
-const cookieParser = require('cookie-parser');
-const credentials = require('./middleware/credentials');
+const path = require("path");
+const cors = require("cors");
+const corsOptions = require("./config/corsOptions");
+const { logger } = require("./middleware/logEvents");
+const errorHandler = require("./middleware/errorHandler");
+const verifyJWT = require("./middleware/verifyJWT");
+const cookieParser = require("cookie-parser");
+const credentials = require("./middleware/credentials");
+const dbConnect = require("./config/dbConnect");
 const PORT = process.env.PORT || 3500;
 
-// custom middleware logger
-app.use(logger);
+// CONNECT TO MONGODB
+dbConnect();
 
-// Handle options credentials check - before CORS!
-// and fetch cookies credentials requirement
-app.use(credentials);
+app.use(logger); // custom middleware logger
+app.use(credentials); // Handle options credentials check - before CORS! and fetch cookies credentials requirement
+app.use(cors(corsOptions)); // Cross Origin Resource Sharing
+app.use(express.urlencoded({ extended: false })); // handle urlencoded form data
+app.use(express.json()); // built-in middleware for json
+app.use(cookieParser()); // middleware for cookies
 
-// Cross Origin Resource Sharing
-app.use(cors(corsOptions));
+// SERVE STATIC FILES ON /
+app.use("/", express.static(path.join(__dirname, "/public")));
 
-// built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
+// ROUTES
+app.use("/", require("./routes/root"));
+app.use("/register", require("./routes/register"));
+app.use("/auth", require("./routes/auth"));
+app.use("/refresh", require("./routes/refresh"));
+app.use("/logout", require("./routes/logout"));
 
-// built-in middleware for json 
-app.use(express.json());
-
-//middleware for cookies
-app.use(cookieParser());
-
-//serve static files
-app.use('/', express.static(path.join(__dirname, '/public')));
-
-// routes
-app.use('/', require('./routes/root'));
-app.use('/register', require('./routes/register'));
-app.use('/auth', require('./routes/auth'));
-app.use('/refresh', require('./routes/refresh'));
-app.use('/logout', require('./routes/logout'));
-
+// JWT PROTECTED ROUTES
 app.use(verifyJWT); // will apply to all the next routes
-app.use('/employees', require('./routes/api/employees'));
+app.use("/employees", require("./routes/api/employees"));
 
-app.all('*', (req, res) => {
-    res.status(404);
-    if (req.accepts('html')) {
-        res.sendFile(path.join(__dirname, 'views', '404.html'));
-    } else if (req.accepts('json')) {
-        res.json({ "error": "404 Not Found" });
-    } else {
-        res.type('txt').send("404 Not Found");
-    }
+// NOT FOUND ROUTES
+app.all("*", (req, res) => {
+  res.status(404);
+  if (req.accepts("html")) {
+    res.sendFile(path.join(__dirname, "views", "404.html"));
+  } else if (req.accepts("json")) {
+    res.json({ error: "404 Not Found" });
+  } else {
+    res.type("txt").send("404 Not Found");
+  }
 });
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () =>
+  console.log(`✓ Server Running On Port ${PORT}`)
+);

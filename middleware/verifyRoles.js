@@ -7,15 +7,13 @@ const verifyRoles = (...allowedRoles) => {
 
     const rolesArray = [...allowedRoles];
 
-    console.log("ROLES ARRAY: ", rolesArray);
-    console.log("REQ ROLES: ", req.roles);
-
-    // compare roles and find one "true" value
-    const result = req.roles
+    // compare req.roles and rolesArray to find one "true" value
+    const oneRoleExists = req.roles
       .map((role) => rolesArray.includes(role)) // ex: [true, false, false]
       .find((val) => val === true); // finds one true value
-    if (!result) {
-      console.log("** YOU DON'T HAVE THE ROLE TO DO THIS ACTION!"); // TODO: remove in prodoction
+
+    if (!oneRoleExists) {
+      console.log("** YOU DON'T HAVE THE RIGHT ROLE TO DO THIS ACTION!"); // TODO: remove in prodoction
       return res.sendStatus(401);
     }
 
