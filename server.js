@@ -4,11 +4,12 @@ const app = express();
 const path = require("path");
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
-const { logger } = require("./middleware/logEvents");
+const { logger } = require("./middleware/logEvents"); // logs request TODO: rename later
 const errorHandler = require("./middleware/errorHandler");
 const verifyJWT = require("./middleware/verifyJWT");
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
+const mongoose = require("mongoose");
 const dbConnect = require("./config/dbConnect");
 const PORT = process.env.PORT || 3500;
 
@@ -50,6 +51,6 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () =>
-  console.log(`✓ Server Running On Port ${PORT}`)
-);
+mongoose.connection.once("open", () => {
+  app.listen(PORT, () => console.log(`✓ Server Running On Port ${PORT}`));
+});
