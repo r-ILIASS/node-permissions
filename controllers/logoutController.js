@@ -6,6 +6,7 @@ const usersDB = {
 };
 const fsPromises = require("fs").promises;
 const path = require("path");
+const cookiesOptions = require("../config/cookiesOptions");
 
 const handleLogout = async (req, res) => {
   // On client, also delete the accessToken
@@ -19,7 +20,7 @@ const handleLogout = async (req, res) => {
     (person) => person.refreshToken === refreshToken
   );
   if (!foundUser) {
-    res.clearCookie("jwt", { httpOnly: true });
+    res.clearCookie("jwt", { ...cookiesOptions });
     return res.sendStatus(204);
   }
 
@@ -34,7 +35,7 @@ const handleLogout = async (req, res) => {
     JSON.stringify(usersDB.users)
   );
 
-  res.clearCookie("jwt", { httpOnly: true });
+  res.clearCookie("jwt", { ...cookiesOptions });
   res.sendStatus(204);
 };
 

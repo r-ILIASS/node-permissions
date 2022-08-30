@@ -1,7 +1,7 @@
 const verifyRoles = (...allowedRoles) => {
   return (req, res, next) => {
     if (!req?.roles) {
-      console.log("NO ROLES, UNAUTHORIZED!"); // TODO: remove in production
+      console.log("** NO ROLES PROVIDED, UNAUTHORIZED!"); // TODO: remove in production
       return res.sendStatus(401);
     }
 
@@ -15,7 +15,12 @@ const verifyRoles = (...allowedRoles) => {
       .map((role) => rolesArray.includes(role))
       .find((val) => val === true);
 
-    if (!result) return res.sendStatus(401);
+    if (!result) {
+      console.log("** YOU DON'T HAVE THE ROLE TO DO THIS ACTION!"); // TODO: remove in prodoction
+      return res.sendStatus(401);
+    }
+
+    console.log("PERMISSION APPROVED");
 
     next();
   };

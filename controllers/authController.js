@@ -5,6 +5,7 @@ const usersDB = {
   },
 };
 const bcrypt = require("bcrypt");
+const cookiesOptions = require('../config/cookiesOptions')
 
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -50,7 +51,7 @@ const handleLogin = async (req, res) => {
       JSON.stringify(usersDB.users)
     );
     res.cookie("jwt", refreshToken, {
-      httpOnly: true,
+      ...cookiesOptions,
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.json({ accessToken });
