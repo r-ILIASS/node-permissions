@@ -62,3 +62,8 @@
 20220830	11:17:48	fcc6fafe-d1e3-4c31-bf08-fe1805b5b96c	GET	undefined	/refresh
 20220830	11:18:21	e8506ab7-376e-4e96-b064-d720e4ebbea6	POST	undefined	/auth
 20220830	11:18:24	155082a9-6e3d-4785-939a-6e7f5fce0038	GET	undefined	/refresh
+20220830	11:29:34	dffb8381-60bf-49c7-bd8e-237a231034fa	POST	undefined	/auth
+20220830	11:29:35	6d49aa0a-07c8-43f5-bc08-085794f0b343	GET	undefined	/refresh
+20220830	11:29:58	04a6223f-6b48-4618-94e5-98329986f6e6	POST	undefined	/employees
+20220830	11:30:04	6753fcec-46f0-435b-8035-7b1f2c46a30f	POST	undefined	/employees
+20220830	11:30:10	05fe7912-a13b-4551-92ff-274304e2f911	DELETE	undefined	/employees
