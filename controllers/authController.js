@@ -8,7 +8,6 @@ const bcrypt = require("bcrypt");
 const cookiesOptions = require('../config/cookiesOptions')
 
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 const fsPromises = require("fs").promises;
 const path = require("path");
 
