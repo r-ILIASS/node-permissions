@@ -8,7 +8,7 @@ const handleLogin = async (req, res) => {
   if (!email || !password)
     return res
       .status(400)
-      .json({ message: "Username and password are required." });
+      .json({ message: "email and password are required." });
 
   // Is user in db?
   const foundUser = await User.findOne({ email }).exec();
