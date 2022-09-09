@@ -2,7 +2,7 @@ const User = require("../model/User");
 const bcrypt = require("bcrypt");
 
 const handleNewUser = async (req, res) => {
-  // check for missing all inputs
+  // check for all missing inputs
   const { fullname, email, password } = req.body;
   if (!fullname || !email || !password)
     return res

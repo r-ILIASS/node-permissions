@@ -1,7 +1,7 @@
 {
   "name": "iliass",
   "version": "1.0.0",
-  "description": "Express tutorial",
+  "description": "node permissions",
   "main": "server.js",
   "scripts": {
     "start": "node server",
