@@ -1,4 +1,5 @@
-// TODO: add createdAt and updatedAT to the Schema
+// TODO: -- add createdAt and updatedAT to the Schema
+//       -- don't send password in responses unless it's requested
 
 const mongoose = require("mongoose");
 
