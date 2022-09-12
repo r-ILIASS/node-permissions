@@ -1,10 +1,13 @@
+// TODO: -- extract handler funciton for not-found route
+//       -- create routes/api/users route (only accessible by admin)
+
 require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
-const { logger } = require("./middleware/logEvents"); // logs request TODO: rename later
+const { reqLogger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
 const verifyJWT = require("./middleware/verifyJWT");
 const cookieParser = require("cookie-parser");
@@ -16,7 +19,7 @@ const PORT = process.env.PORT || 3500;
 // CONNECT TO MONGODB
 dbConnect();
 
-app.use(logger); // custom middleware logger
+app.use(reqLogger); // custom middleware logger
 app.use(credentials); // Handle options credentials check - before CORS! and fetch cookies credentials requirement
 app.use(cors(corsOptions)); // Cross Origin Resource Sharing
 app.use(express.urlencoded({ extended: false })); // handle urlencoded form data
@@ -51,6 +54,7 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
+// make sure db is connected before listening for requests
 mongoose.connection.once("open", () => {
   app.listen(PORT, () => console.log(`✓ Server Running On Port ${PORT}`));
 });

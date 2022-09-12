@@ -7,7 +7,7 @@
     "start": "node server",
     "dev": "nodemon server"
   },
-  "author": "Dave Gray",
+  "author": "Iliass",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
