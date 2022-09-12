@@ -1,3 +1,5 @@
+// TODO: -- trycatch all
+
 const Employee = require("../model/Employee");
 
 const getAllEmployees = async (req, res) => {
@@ -16,7 +18,7 @@ const createNewEmployee = async (req, res) => {
       message: "firstname, lastname and email are required",
     });
   }
-    
+
   try {
     const result = await Employee.create({
       firstname: req.body.firstname,
@@ -54,22 +56,26 @@ const updateEmployee = async (req, res) => {
 };
 
 const deleteEmployee = async (req, res) => {
-  if (!req?.body?.id) {
+  if (!req?.params?.id) {
     return res.status(400).json({ message: "Employee ID required" });
   }
 
-  // Is employee in db?
-  const employee = await Employee.findOne({ _id: req.body.id }).exec();
-  if (!employee) {
-    return res
-      .status(204)
-      .json({ message: `There is no employee with the ID: ${req.body.id}` });
+  try {
+    // Is employee in db?
+    const employee = await Employee.findById(req.params.id);
+    if (!employee) {
+      return res.status(404).json({
+        message: `There is no employee with the ID: ${req.params.id}`,
+      });
+    }
+
+    // Delete employee from db
+    const result = await Employee.deleteOne({ _id: req.params.id });
+
+    res.status(204);
+  } catch (error) {
+    console.error(error);
   }
-
-  // Delete employee from db
-  const result = await Employee.deleteOne({ _id: req.body.id });
-
-  res.json(result);
 };
 
 const getEmployee = async (req, res) => {

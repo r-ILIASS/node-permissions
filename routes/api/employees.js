@@ -11,9 +11,11 @@ router
   .route("/")
   .get(employeesController.getAllEmployees)
   .post(verifyRoles(Admin, Editor), employeesController.createNewEmployee)
-  .put(verifyRoles(Admin, Editor), employeesController.updateEmployee)
-  .delete(verifyRoles(Admin), employeesController.deleteEmployee);
+  .put(verifyRoles(Admin, Editor), employeesController.updateEmployee);
 
-router.route("/:id").get(employeesController.getEmployee);
+router
+  .route("/:id")
+  .get(employeesController.getEmployee)
+  .delete(verifyRoles(Admin), employeesController.deleteEmployee);
 
 module.exports = router;
