@@ -45,7 +45,7 @@ const handleLogin = async (req, res) => {
       ...cookiesOptions,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken });
+    res.json({ accessToken, roles }); // TODO: roles
   } else {
     res.sendStatus(401);
   }
