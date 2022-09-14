@@ -19,7 +19,7 @@ const handleLogin = async (req, res) => {
 
   // Is password correct?
   if (match) {
-    const roles = Object.values(foundUser.roles);
+    const roles = Object.values(foundUser.roles).filter(Boolean); // .filter rule to eliminate null values in roles array
     // create JWTs
     const accessToken = jwt.sign(
       {
